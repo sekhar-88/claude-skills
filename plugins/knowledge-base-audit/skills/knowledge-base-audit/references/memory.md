@@ -2,9 +2,9 @@
 
 Detail for phase 7. The vault lives at `~/.claude/projects/<slug>/memory/`, where
 `<slug>` is the project's absolute path with every path separator replaced by a
-dash. On Windows the drive colon goes too, so `C:\inetpub\wwwroot` becomes
-`C--inetpub-wwwroot`. `MEMORY.md` is the index, loaded every session; the topic
-notes load on recall.
+dash, and a drive letter loses its colon as well: `C:\src\myproject` becomes
+`C--src-myproject`, `/home/me/myproject` becomes `-home-me-myproject`. `MEMORY.md`
+is the index, loaded every session; the topic notes load on recall.
 
 If `measure.py` reports no vault, read the probed path it prints before believing
 there is nothing there.

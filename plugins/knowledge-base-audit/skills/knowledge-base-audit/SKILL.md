@@ -30,13 +30,14 @@ rather than changes. Write nothing — not even a fix for an obviously broken li
 The point is to give someone a decision, not to start work they did not approve.
 
 ```bash
-python3 <skill>/scripts/measure.py [project_dir]        # human-readable
-python3 <skill>/scripts/measure.py [project_dir] --json  # if you want to compute on it
+<python> <skill>/scripts/measure.py [project_dir]        # human-readable
+<python> <skill>/scripts/measure.py [project_dir] --json  # if you want to compute on it
 ```
 
-On Windows run it as `python`. There is no `python3` there: the name resolves to a
-Microsoft Store stub that prints an install prompt and exits without running the
-script.
+`<python>` is whichever name reaches Python 3.6 or newer here. There is no portable
+one: `python3` on most systems, `python` where the installer left only that, `py -3`
+where the launcher exists. If a name prints an install prompt rather than running,
+it is a placeholder shim and not an interpreter, so try the next one.
 
 The first thing the report prints is what it could not find. Read that line before
 concluding a project has no docs tree or no memory vault, because a wrong path and

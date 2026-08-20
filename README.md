@@ -35,7 +35,8 @@ Copy-Item -Recurse "$env:TEMP\sekhar-skills\plugins\knowledge-base-audit\skills\
 Use `~/.claude/skills/` instead of `.claude/skills/` to install it for every
 project on the machine rather than just the current one.
 
-Run the script with `python` on Windows. `python3` is not a real command there.
+`measure.py` needs Python 3.6 or newer and no packages. Call it with whichever of
+`python3`, `python` or `py -3` reaches an interpreter on your machine.
 
 ## Skills
 
