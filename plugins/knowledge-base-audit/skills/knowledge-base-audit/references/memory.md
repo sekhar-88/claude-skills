@@ -1,8 +1,13 @@
 # Consolidating the memory vault
 
-Detail for phase 7. The vault lives at
-`~/.claude/projects/<path-with-slashes-as-dashes>/memory/`, with `MEMORY.md` as an
-index loaded every session and topic notes loaded on recall.
+Detail for phase 7. The vault lives at `~/.claude/projects/<slug>/memory/`, where
+`<slug>` is the project's absolute path with every path separator replaced by a
+dash. On Windows the drive colon goes too, so `C:\inetpub\wwwroot` becomes
+`C--inetpub-wwwroot`. `MEMORY.md` is the index, loaded every session; the topic
+notes load on recall.
+
+If `measure.py` reports no vault, read the probed path it prints before believing
+there is nothing there.
 
 **Back it up first.** The vault is not in git, so a wrong deletion is unrecoverable:
 

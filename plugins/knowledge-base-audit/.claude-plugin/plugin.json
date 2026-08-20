@@ -1,6 +1,8 @@
 {
   "name": "knowledge-base-audit",
   "description": "Audit and overhaul a project's agent knowledge base (CLAUDE.md, AGENTS.md, README.md, docs tree, memory vault).",
+  "version": "1.1.0",
+  "license": "MIT",
   "author": {
     "name": "sekhar-88"
   }
