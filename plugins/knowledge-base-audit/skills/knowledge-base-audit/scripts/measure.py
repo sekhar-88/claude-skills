@@ -60,9 +60,8 @@ def discover(root):
         if os.path.isdir(p):
             found["docs_dir"] = p
             break
-    mem = os.path.expanduser(
-        "~/.claude/projects/" + os.path.abspath(root).replace("/", "-") + "/memory"
-    )
+    slug = re.sub(r"[/\\:]", "-", os.path.abspath(root))
+    mem = os.path.expanduser("~/.claude/projects/" + slug + "/memory")
     if os.path.isdir(mem):
         found["memory_dir"] = mem
     return found
@@ -163,6 +162,23 @@ def duplication(f):
     return sorted(heads(f["claude_md"]) & heads(f["readme"]))
 
 
+_BASENAMES = {}
+SKIP_DIRS = {".git", "node_modules", ".venv", "venv", "dist", "build", "__pycache__",
+             ".idea", ".vscode", "coverage"}
+
+
+def basenames(root):
+    """Every filename in the tree, so a bare code-ref resolves wherever it lives."""
+    if root in _BASENAMES:
+        return _BASENAMES[root]
+    names = set()
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
+        names.update(filenames)
+    _BASENAMES[root] = names
+    return names
+
+
 def links(f):
     """Pointers that no longer resolve — the fastest way a doc goes stale."""
     root = f["root"]
@@ -178,9 +194,12 @@ def links(f):
         for ref in set(CODEREF_RE.findall(text)):
             if ref.startswith("/"):
                 continue  # a route like `/login.js`, not a path on disk
-            if not any(os.path.exists(os.path.join(root, d, ref))
-                       for d in ("", "public", "src", "lib", "tools", "backtest", "app")):
-                broken.append({"in": name, "kind": "code-ref", "target": ref})
+            if any(os.path.exists(os.path.join(root, d, ref))
+                   for d in ("", "public", "src", "lib", "tools", "backtest", "app")):
+                continue
+            if os.path.basename(ref) in basenames(root):
+                continue
+            broken.append({"in": name, "kind": "code-ref", "target": ref})
     return broken
 
 
