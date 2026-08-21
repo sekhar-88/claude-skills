@@ -24,8 +24,19 @@ mkdir -p .claude/skills
 cp -R /tmp/sekhar-skills/plugins/knowledge-base-audit/skills/knowledge-base-audit .claude/skills/
 ```
 
+Same thing in PowerShell:
+
+```powershell
+git clone --depth 1 https://github.com/sekhar-88/claude-skills "$env:TEMP\sekhar-skills"
+New-Item -ItemType Directory -Force .claude\skills | Out-Null
+Copy-Item -Recurse "$env:TEMP\sekhar-skills\plugins\knowledge-base-audit\skills\knowledge-base-audit" .claude\skills\
+```
+
 Use `~/.claude/skills/` instead of `.claude/skills/` to install it for every
 project on the machine rather than just the current one.
+
+`measure.py` needs Python 3.6 or newer and no packages. Call it with whichever of
+`python3`, `python` or `py -3` reaches an interpreter on your machine.
 
 ## Skills
 
@@ -45,8 +56,10 @@ dead pointers, and memory notes that merely restate the docs. Then it restructur
 the guidance file so it is preflight — the things an agent must know before
 touching code — rather than a second copy of the documentation.
 
-The metrics are scripted (`scripts/measure.py`, no dependencies, degrades
-gracefully when there is no git/docs tree/memory vault). The judgement is not:
-the skill's core is sorting rules into *inferable* (a competent engineer would do
-this anyway — cut it) and *not inferable* (a fact about this system that
-contradicts what best practice suggests — keep it, in one line).
+The metrics are scripted (`scripts/measure.py`, no dependencies). Anything it
+cannot find, it names in the first line of the report, including the path it
+probed for the memory vault, so a wrong path never reads as an absent file. The
+judgement is not scripted: the skill's core is sorting rules into *inferable* (a
+competent engineer would do this anyway, so cut it) and *not inferable* (a fact
+about this system that contradicts what best practice suggests, so keep it, in
+one line).

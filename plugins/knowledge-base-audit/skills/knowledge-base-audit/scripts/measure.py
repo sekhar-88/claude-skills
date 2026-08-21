@@ -62,6 +62,7 @@ def discover(root):
             break
     slug = re.sub(r"[/\\:]", "-", os.path.abspath(root))
     mem = os.path.expanduser("~/.claude/projects/" + slug + "/memory")
+    found["memory_dir_probed"] = mem
     if os.path.isdir(mem):
         found["memory_dir"] = mem
     return found
@@ -289,8 +290,11 @@ def memory(f):
 def collect(root, commits):
     f = discover(root)
     act = activity(root, commits)
+    expected = (("claude_md", "CLAUDE.md"), ("readme", "README.md"),
+                ("docs_dir", "docs tree"), ("memory_dir", "memory vault"))
     return {
         "discovered": {k: v for k, v in f.items() if k != "root"},
+        "not_found": [label for key, label in expected if key not in f],
         "context_rent": context_rent(f),
         "claude_md_sections": sections(f["claude_md"]) if "claude_md" in f else [],
         "activity": act,
@@ -306,6 +310,11 @@ def render(d):
     L = []
     a = L.append
     a("KNOWLEDGE BASE — MEASURED\n" + "=" * 60)
+
+    if d.get("not_found"):
+        a("\nNot found, so nothing below reflects it: " + ", ".join(d["not_found"]))
+        if "memory vault" in d["not_found"]:
+            a("  memory vault probed at: " + d["discovered"]["memory_dir_probed"])
 
     a("\nContext rent (what you pay every turn)")
     for r in d["context_rent"]["files"]:

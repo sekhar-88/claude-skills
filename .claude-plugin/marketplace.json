@@ -8,7 +8,8 @@
   "plugins": [
     {
       "name": "knowledge-base-audit",
-      "description": "Audit and overhaul a project's agent knowledge base — CLAUDE.md, AGENTS.md, README.md, the docs tree and the Claude memory vault. Measures what they cost per turn, whether their framing still matches where the project actually works, what is duplicated and what is stale, then restructures the guidance file into preflight rather than documentation.",
+      "description": "Audits a project's agent knowledge base and rebuilds it: CLAUDE.md, AGENTS.md, README.md, the docs tree and the Claude memory vault. Reports what those files cost per turn, whether their framing still matches where the commits land, what is duplicated and what is stale, then rewrites the guidance file into preflight rather than a second copy of the docs.",
+      "version": "1.1.0",
       "author": {
         "name": "sekhar-88"
       },

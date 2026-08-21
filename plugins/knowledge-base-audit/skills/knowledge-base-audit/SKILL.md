@@ -1,6 +1,6 @@
 ---
 name: knowledge-base-audit
-description: Audit and overhaul a project's agent knowledge base — CLAUDE.md, AGENTS.md, README.md, the docs tree, and the Claude memory vault — measuring what they cost per turn, whether their framing still matches where the project actually works, what is duplicated, and what is stale, then restructuring them so the guidance file is preflight instead of documentation. Use this whenever someone says their CLAUDE.md is too long, bloated, stale, disorganized or "not coherent anymore", asks what is even in it or what it is supposed to be, wants their agent context files cleaned up, consolidated, reorganized or ported, wonders why their context window fills up so fast, wants memory notes pruned or de-duplicated, or asks for a knowledge-base report, audit, overhaul or course correction. Also use it proactively when about to make a large edit to a CLAUDE.md that has clearly outgrown its purpose.
+description: Audits and overhauls a project's agent knowledge base, meaning CLAUDE.md, AGENTS.md, README.md, the docs tree and the Claude memory vault. It measures what those files cost per turn, whether their framing still matches where the commits actually land, what is duplicated and what is stale. Then it rewrites the guidance file into preflight rather than a second copy of the docs. Use it when someone says their CLAUDE.md is too long, bloated or stale, asks what is even in it, wants their agent context files cleaned up or ported, wonders why the context window fills so fast, wants memory notes pruned, or asks for a knowledge-base report or audit. Use it before a large edit to a CLAUDE.md that has outgrown its purpose.
 ---
 
 # Knowledge base audit
@@ -30,9 +30,18 @@ rather than changes. Write nothing — not even a fix for an obviously broken li
 The point is to give someone a decision, not to start work they did not approve.
 
 ```bash
-python3 <skill>/scripts/measure.py [project_dir]        # human-readable
-python3 <skill>/scripts/measure.py [project_dir] --json  # if you want to compute on it
+<python> <skill>/scripts/measure.py [project_dir]        # human-readable
+<python> <skill>/scripts/measure.py [project_dir] --json  # if you want to compute on it
 ```
+
+`<python>` is whichever name reaches Python 3.6 or newer here. There is no portable
+one: `python3` on most systems, `python` where the installer left only that, `py -3`
+where the launcher exists. If a name prints an install prompt rather than running,
+it is a placeholder shim and not an interpreter, so try the next one.
+
+The first thing the report prints is what it could not find. Read that line before
+concluding a project has no docs tree or no memory vault, because a wrong path and
+a genuinely absent vault otherwise look identical.
 
 The script measures; you interpret. It cannot tell whether a rule is worth its
 line — that judgement is the whole job, and it is yours.
